@@ -18,7 +18,6 @@
     <application
         android:allowBackup="false"
         android:label="Mythings Scraper (internal tool)"
-        android:icon="@mipmap/ic_launcher"
         android:theme="@style/Theme.AppCompat.DayNight"
         tools:targetApi="31">
 
