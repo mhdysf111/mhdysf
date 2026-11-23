@@ -199,9 +199,16 @@ class ScraperAccessibilityService : AccessibilityService() {
         val setOk = editText.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, bundle)
         if (!setOk) return false
 
+        // Typing the query only opens the suggestions dropdown - it doesn't
+        // submit the search. Explicitly press the keyboard's action key
+        // (ACTION_IME_ENTER simulates whatever that key is, even when it's
+        // labeled "Done" rather than "Search" - many apps still treat it as
+        // submit). scanAndTapMerchant() below also tries tapping the
+        // top "search for this" suggestion as a second line of defense if
+        // this doesn't move the screen forward.
         sleep(400)
         val freshEditText = findEditText(freshRoot() ?: return true)
-        freshEditText?.performAction(AccessibilityNodeInfo.ACTION_IME_ENTER)
+        freshEditText?.performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_IME_ENTER.id)
         sleep(SHORT_WAIT_MS)
         return true
     }
