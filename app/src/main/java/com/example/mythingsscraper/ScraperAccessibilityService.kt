@@ -136,7 +136,7 @@ class ScraperAccessibilityService : AccessibilityService() {
         sleep(SCREEN_SETTLE_MS)
 
         val found = findAndOpenMerchant(merchant)
-        if (!found) {
+        if (found == null) {
             ScraperLog.log("'$merchant' not found in search results after scrolling/switching tabs.")
             return
         }
