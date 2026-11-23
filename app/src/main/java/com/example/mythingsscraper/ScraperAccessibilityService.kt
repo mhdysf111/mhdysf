@@ -196,7 +196,14 @@ class ScraperAccessibilityService : AccessibilityService() {
         val bundle = Bundle().apply {
             putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, query)
         }
-        return editText.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, bundle)
+        val setOk = editText.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, bundle)
+        if (!setOk) return false
+
+        sleep(400)
+        val freshEditText = findEditText(freshRoot() ?: return true)
+        freshEditText?.performAction(AccessibilityNodeInfo.ACTION_IME_ENTER)
+        sleep(SHORT_WAIT_MS)
+        return true
     }
 
     // ---------------------------------------------------------------
